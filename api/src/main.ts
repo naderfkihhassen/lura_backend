@@ -42,11 +42,13 @@ async function bootstrap() {
   });
 
   // Enable validation
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-    whitelist: true,
-    forbidNonWhitelisted: true,
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
   // Enable CORS
   app.enableCors({
@@ -54,7 +56,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  await app.listen(8000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port, '0.0.0.0'); // Listen on all interfaces
+  console.log(`Application is running on port ${port}`);
   logger.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
